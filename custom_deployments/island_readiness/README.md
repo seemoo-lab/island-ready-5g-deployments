@@ -1,5 +1,3 @@
-_go [here](https://github.com/herlesupreeth/docker_open5gs) for the original project README_
-
 # Deployment 
 
 This custom deployment demonstrates an island-ready Open5GS core network that features a MongoDB replica set to synchronize state across multiple cores.
@@ -70,7 +68,7 @@ Start the synchronization component:
 
 ```zsh
 # on all nodes
-./start-sync.sh
+scripts/start-sync.sh
 ```
 
 If you ever need to reset the synchronization, you can use the `reset-sync.sh` scrit. Howerver, note that this will delete all data stored in the MongoDB.
@@ -97,7 +95,7 @@ docker compose -f 5g-active.yaml up -d
 ```zsh
 # browse NODE1_IP:9999
 # or use the script on node1
-./add-subscriber.sh
+scripts/add-subscriber.sh
 ```
 
 (1.3) "We confirm that ue1 can access the website via route radio1, ran1, core1."
@@ -111,7 +109,7 @@ Connect the UE to the 5G network of node1 and verify that you access the Interne
 ```zsh
 # browse NODE2_IP:9999 and verify that the added subscriber is there.
 # or use the script on node2
-./get-subscribers.sh
+scripts/get-subscribers.sh
 ```
 
 (1.5) "We shut down radio1 and start radio2."
@@ -151,7 +149,7 @@ GNB_AMF_IP=${CORE_IP} docker compose -f srsgnb.yaml up -d
 
 ```zsh
 # on node2
-./start-connect.sh
+scripts/start-connect.sh
 ```
 
 (2.3) "We confirm that we can access the website from ue1 via route radio2, ran2, core1."
@@ -183,13 +181,13 @@ docker compose -f srsgnb.yaml up -d
 
 # on node2
 GNB_AMF_IP=${CORE_IP} docker compose -f srsgnb.yaml up -d
-./start-connect.sh
+scripts/start-connect.sh
 ```
 
 (3.2) "At the local network edge of node1 and node2, we deploy web applications webapp1 and webapp2, respectively."
 ```zsh
 # on node1 and node2
-./serve-webapp.sh
+scripts/serve-webapp.sh
 ```
 
 (3.3) "We connect ue1 to radio1 and ue2 to radio2. We confirm that both UEs can access both web applications and the website, which shows that global connectivity is intact."
@@ -201,7 +199,7 @@ Connect a UE to the 5G network of node2 and verify that you access the Internet,
 
 ```zsh
 # on node2
-./isolate-node.sh
+scripts/isolate-node.sh
 ```
 
 (3.5) "As a result, the connect component of node2 activates core2, which we confirm by observing that ue2 indicates 5G connectivity."
@@ -225,17 +223,17 @@ Connect a UE to the 5G network of node2 and verify that you webapp2 on NODE2_IP:
 
 ```zsh
 # on node2
-./reconnect-node.sh
+scripts/reconnect-node.sh
 ```
 
 (3.10) Shutdown cores
 ```zsh
 # on all nodes
-./stop-sync.sh
+scripts/stop-sync.sh
 
 # on node1 and node2
 docker compose -f srsgnb.yaml down
-./stop-webserver.sh
+scripts/stop-webserver.sh
 
 # on node1
 docker compose -f 5g-active.yaml down

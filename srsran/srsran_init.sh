@@ -45,8 +45,9 @@ fi
 cp /mnt/srsran/qos.yml /etc/srsran/qos.yml
 
 sed -i 's|PLMN|'$MCC''$MNC'|g' /etc/srsran/gnb.yml
-sed -i 's|AMF_IP|'$AMF_IP'|g' /etc/srsran/gnb.yml
+sed -i 's|GNB_AMF_IP|'$GNB_AMF_IP'|g' /etc/srsran/gnb.yml
 sed -i 's|SRS_GNB_IP|'$SRS_GNB_IP'|g' /etc/srsran/gnb.yml
+sed -i 's|USRP_IP|'$USRP_IP'|g' /etc/srsran/gnb.yml
 sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/gnb.yml
 sed -i 's|TAC|'$TAC'|g' /etc/srsran/gnb.yml
 

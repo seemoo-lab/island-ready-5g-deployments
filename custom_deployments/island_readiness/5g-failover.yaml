@@ -1,0 +1,51 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    command: --bind_ip localhost,${DOCKER_HOST_IP} --replSet ${MONGO_RS_NAME}
+    env_file:
+      - .env
+    volumes:
+      - mongodbdata:/data/db
+      - mongodbdata:/data/configdb
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "27017/udp"
+      - "27017/tcp"
+    network_mode: host
+    extra_hosts:
+      - "hosts.docker.internal:host-gateway"
+  webui:
+    image: docker_open5gs
+    container_name: webui
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+      - .env-normal
+    environment:
+      - COMPONENT_NAME=webui
+    volumes:
+      - ./webui:/mnt/webui
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9999/tcp"
+    ports:
+      - "9999:9999/tcp"
+    networks:
+      default:
+        ipv4_address: ${WEBUI_IP}
+networks:
+  default:
+    name: docker_open5gs_default
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+    ipam:
+      config:
+        - subnet: ${TEST_NETWORK}
+volumes:
+  mongodbdata:
+    name: docker_open5gs_mongodbdata

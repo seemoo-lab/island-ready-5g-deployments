@@ -17,13 +17,8 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=gnb
+      - GNB_AMF_IP=${GNB_AMF_IP}
     expose:
       - "38412/sctp"
       - "2152/udp"
-    networks:
-      default:
-        ipv4_address: ${SRS_GNB_IP}
-networks:
-  default:
-    external: true
-    name: docker_open5gs_default
+    network_mode: host
