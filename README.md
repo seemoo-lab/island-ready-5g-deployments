@@ -1,24 +1,36 @@
-_go [here](https://github.com/herlesupreeth/docker_open5gs) for the original project README_
-
-# Deployment 
+# Island-Ready 5G Deployments
 
 This custom deployment demonstrates an island-ready Open5GS core network that features a MongoDB replica set to synchronize state across multiple cores.
 
-## Setup
+## Evaluation
 
-### Nodes
+Section VI of our paper evaluates the availabily of 5G connectivity.
+In [evaluation_scripts/](./evaluation_scripts/), you find instructions to reproduce our evaluation.
+
+## Experiments
+
+Section V of our paper describes three experiments.
+The following instructions enable you to reproduce these experiments. Note that verbatim quotes are cited from our paper.
+
+Experiment 1 "shows that the subscriber information is successfully synchronized between the UDMs in core1 and core2. This demonstrates that the sync component correctly synchronizes the state of stateful NFs, which solves the challenge of distributing the 5G control plane."
+Experiment 2 "demonstrates that the connect component activates failover core replicas to seamlessly take over connectivity when the active core fails."
+Experiment 3 "shows that island-ready 5G systems based on our island-ready core design can transition to island connectivity."
+
+### Setup
+
+#### Nodes
 This deployment requires a three-node setup.
 Two IP addresses need to be configured per node (for core + RAN), and IP connectivity is required between the nodes.
 Specify these IP addresses in `.env`.
 
-### Radio
+#### Radio
 Connect a radio to each node, e.g., following the [USRP Manual](https://files.ettus.com/manual/page_devices.html).
 
-### UE
+#### UE
 Set up a UE, e.g., from the [list of srsRAN-compatible UEs](https://docs.srsran.com/projects/project/en/latest/knowledge_base/source/cots_ues/source/index.html#cots-ues).
 Programm a SIM card, insert it into the UE, and have the IMSI, KEY, and OPC ready.
 
-### Additional Steps
+#### Additional Steps
 Configure the `.env` to specify the IP addresses per node.
 
 ```zsh
@@ -27,7 +39,7 @@ cd docker_open5gs
 vi .env # set Lines 4 - 10 to match your setup
 ```
 
-### Example:
+#### Example:
 We run the experiments on three lab computers that share a 10.10.11.0/24 network via the `eno1` interface. Each node connects to an USRP X310 via the `enp1s0f1` interface. The X310s have the IP address 192.168.40.2. We use a Google Pixel 6 with a programmable sysmocom SIM card.
 
 ```zsh
@@ -64,7 +76,7 @@ GNB_IP=10.10.11.20X      # configure per mode
 
 
 
-### Start the synchronization component
+#### Start the synchronization component
 
 Start the synchronization component:
 
@@ -74,16 +86,6 @@ Start the synchronization component:
 ```
 
 If you ever need to reset the synchronization, you can use the `reset-sync.sh` scrit. Howerver, note that this will delete all data stored in the MongoDB.
-
-## Experiments
-
-Section V of *Island-Ready 5G Deployments: Decentralized Core Networks for Crisis Connectivity at the Edge* describes three experiments.
-The following instructions enable you to reproduce these experiments. Note that verbatim quotes are cited from [the aforementioned paper](https://arxiv.org).
-
-Experiment 1 "shows that the subscriber information is successfully synchronized between the UDMs in core1 and core2. This demonstrates that the sync component correctly synchronizes the state of stateful NFs, which solves the challenge of distributing the 5G control plane."
-Experiment 2 "demonstrates that the connect component activates failover core replicas to seamlessly take over connectivity when the active core fails."
-Experiment 3 "shows that island-ready 5G systems based on our island-ready core design can transition to island connectivity."
-
 
 ### Experiment 1
 
@@ -243,3 +245,7 @@ docker compose -f 5g-active.yaml down
 # on node2
 docker compose -f 5g-island.yaml down
 ```
+
+-----
+
+_Find the original project [here](https://github.com/herlesupreeth/docker_open5gs)_

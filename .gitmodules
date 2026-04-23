@@ -1,0 +1,3 @@
+[submodule "evaluation_scripts/pobtog"]
+	path = evaluation_scripts/pobtog
+	url = https://github.com/lsinfo3/pobtog

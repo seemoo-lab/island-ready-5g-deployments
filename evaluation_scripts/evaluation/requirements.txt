@@ -1,0 +1,24 @@
+numpy
+pandas
+# pyproj
+# rasterio
+# plotly
+geopandas
+shapely
+# IPython
+folium
+fiona
+ipykernel
+# opencv-python-headless
+matplotlib
+networkx
+# scikit-learn
+# pysal
+# libpysal
+# pygad
+# Flask
+# flask_cors
+# dvc[all]
+# tqdm
+# python_tsp
+# nbformat==5.10.4
